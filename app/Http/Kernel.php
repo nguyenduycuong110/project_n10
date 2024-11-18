@@ -73,4 +73,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         
     ];
+
+    protected $routeMiddleware = [
+        'set.guard.session' => \App\Http\Middleware\SetGuardSession::class,
+    ];
 }

@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>{{ config('apps.general.sys_admin') }}</title>
+        <title>{{ config('apps.general.sys_consultation') }}</title>
 
         <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('backend/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
@@ -22,7 +22,7 @@
             <div class="row">
 
                 <div class="col-md-6">
-                    <h2 class="font-bold">Welcome {{ config('apps.general.sys_admin') }}</h2>
+                    <h2 class="font-bold">Welcome to {{ config('apps.general.sys_consultation') }}</h2>
 
                     <p>
                         Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
@@ -35,12 +35,10 @@
                     <p>
                         When an unknown printer took a galley of type and scrambled it to make a type specimen book.
                     </p>
-
                 </div>
                 <div class="col-md-6">
                     <div class="ibox-content">
-                      
-                        <form method="post" class="m-t" role="form" action="{{ route('auth.login') }}">
+                        <form method="post" class="m-t" role="form" action="{{ route('consultation.auth.dologin') }}">
                             @csrf
                             <div class="form-group">
                                 <input 
@@ -67,21 +65,18 @@
                             </div>
                             <button type="submit" class="btn btn-primary block full-width m-b">Đăng nhập</button>
 
-                            <a href="#" class="btn-fg ">
+                            <a href="#" class="btn-fg">
                                 <small>Forgot password?</small>
                             </a>
                         </form>
                         <p class="m-t">
-                            <small>Newbie Code @<?php echo Date('Y') ?></small>
+                            <small>Newbie Code @ <?php echo Date('Y') ?></small>
                         </p>
                     </div>
                 </div>
             </div>
-            <hr/>
         </div>
-
     </body>
-
 </html>
 <style>
     .loginColumns p{
@@ -95,4 +90,3 @@
         margin-top: 10px !important;
     }
 </style>
-

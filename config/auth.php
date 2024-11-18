@@ -39,11 +39,13 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            'session' => 'session_web'
         ],
 
         'reception' => [
             'driver' => 'session',
             'provider' => 'reception',
+            'session' => 'session_reception'
         ],
 
         

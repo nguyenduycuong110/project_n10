@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>SYS Reception</title>
+        <title>{{ config('apps.general.sys_reception') }}</title>
 
         <link href="{{ asset('backend/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('backend/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
@@ -22,7 +22,7 @@
             <div class="row">
 
                 <div class="col-md-6">
-                    <h2 class="font-bold">Welcome to SYS Reception</h2>
+                    <h2 class="font-bold">Welcome to {{ config('apps.general.sys_reception') }}</h2>
 
                     <p>
                         Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
@@ -34,10 +34,6 @@
 
                     <p>
                         When an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                    </p>
-
-                    <p>
-                        <small>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</small>
                     </p>
 
                 </div>
@@ -68,9 +64,9 @@
                                     <span class="error-message">* {{ $errors->first('password') }}</span>
                                 @endif
                             </div>
-                            <button type="submit" class="btn btn-success block full-width m-b">Đăng nhập</button>
+                            <button type="submit" class="btn btn-primary block full-width m-b">Đăng nhập</button>
 
-                            <a href="#">
+                            <a href="#" class="btn-fg">
                                 <small>Forgot password?</small>
                             </a>
                         </form>
@@ -80,17 +76,20 @@
                     </div>
                 </div>
             </div>
-            <hr/>
-            <div class="row">
-                <div class="col-md-6">
-                    Copyright Example Company
-                </div>
-                <div class="col-md-6 text-right">
-                <small>© 2023</small>
-                </div>
-            </div>
         </div>
 
     </body>
 
 </html>
+<style>
+    .loginColumns p{
+        text-align: justify;
+    }
+    .btn-fg{
+        display: block;
+        margin-top: 5px;
+    }
+    .m-t{
+        margin-top: 10px !important;
+    }
+</style>

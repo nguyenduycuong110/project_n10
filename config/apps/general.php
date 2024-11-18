@@ -19,4 +19,7 @@
 		'defaultPublish' => ['publish','=', 2],
         'reception_id' => 7,
         'doctor_id' => 5,
+        'sys_admin' =>'SYS CMS',
+        'sys_reception' => 'SYS RECEPTION',
+        'sys_consultation' => 'SYS CONSULTATION'
 	];
