@@ -399,7 +399,7 @@
 
             let department_id = modal.find('select[name="department_id"]').val()
 
-            let clinic_id = modal.find('input[name="clinic_id"]').val()
+            let clinic_id = modal.find('input[name="clinic_id"]:checked').val()
 
             let user_id = modal.find('input[name="user_id"]').val()
 

@@ -6,6 +6,7 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Providers\CustomReceptionProvider;
+use App\Providers\ConsultProvider;
 use Illuminate\Support\Facades\Auth;
 
 class AuthServiceProvider extends ServiceProvider
@@ -28,6 +29,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Auth::provider('custom', function ($app, array $config) {
             return new CustomReceptionProvider($app['hash'], $config['model']);
+        });
+
+        Auth::provider('consult', function ($app, array $config) {
+            return new ConsultProvider($app['hash'], $config['model']);
         });
 
         Gate::define('modules', function($user, $permisionName){

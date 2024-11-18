@@ -48,7 +48,11 @@ return [
             'session' => 'session_reception'
         ],
 
-        
+        'consultation' => [
+            'driver' => 'session',
+            'provider' => 'consultation',
+            'session' => 'session_consultation'
+        ],
 
 
     ],
@@ -78,6 +82,11 @@ return [
 
         'reception' => [
             'driver' => 'custom',
+            'model' => App\Models\User::class,
+        ],
+
+        'consultation' => [
+            'driver' => 'consult',
             'model' => App\Models\User::class,
         ],
 
@@ -113,6 +122,13 @@ return [
 
         'repception' => [
             'provider' => 'reception',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'consultation' => [
+            'provider' => 'consultation',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

@@ -71,4 +71,21 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
         ->get();
     }
 
+    public function getPatientByClinic($clinic_id = 0){
+        return $this->model->select([
+            'visits.symptoms',
+            'visits.code',
+            'tb2.name as patient_name',
+            'tb2.code as patient_code',
+            'tb2.birthday as patient_birthday',
+            'tb2.patient_phone',
+            'tb2.gender as patient_gender',
+            'tb2.cid as patient_cide',
+            'tb2.province_id'
+        ])
+        ->join('patients as tb2','tb2.id','=','visits.patient_id')
+        ->where('visits.clinic_id', $clinic_id)
+        ->get();
+    }
+
 }

@@ -53,4 +53,17 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $query->paginate($perPage)
                     ->withQueryString()->withPath(env('APP_URL').$extend['path']);
     }
+
+    public function getInfo($id = 0){
+        return $this->model->select([
+            'tb2.id as clinic_id',
+            'tb2.name as clinic_name',
+            'tb2.code as clinic_code',
+            'tb3.name as department_name'
+        ])
+        ->join('clinics as tb2','tb2.user_id','=','users.id')
+        ->join('departments as tb3','tb3.id','=','users.department_id')
+        ->where('users.id', $id)
+        ->first();
+    }
 }

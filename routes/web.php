@@ -73,6 +73,7 @@ use App\Http\Controllers\Reception\AuthController as ReAuthController;
 use App\Http\Controllers\Reception\ReceptionController as ReReceptionController;
 
 use App\Http\Controllers\Consultation\AuthController as CoAuthController;
+use App\Http\Controllers\Consultation\ConsultationController as CoConsultationController;
 
 
 /* Reception */
@@ -104,6 +105,7 @@ Route::group(['middleware' => ['reception','set.guard.session:reception']], func
     Route::get('ajax/visit/getVisit', [AjaxReceptionController::class, 'getVisit'])->name('ajax.visit.getVisit');
 
 });
+
  
 /*Consultation */
 
@@ -113,7 +115,12 @@ Route::post('consultation/check/login', [CoAuthController::class, 'login'])->nam
 
 Route::get('consultation/logout', [CoAuthController::class, 'logout'])->name('consultation.logout');
 
+Route::group(['middleware' => ['consultation','set.guard.session:consultation']], function () {
 
+    Route::get('consultation/index', [CoConsultationController::class, 'index'])->name('consultation.index'); 
+
+});
+ 
 
 
 

@@ -23,6 +23,7 @@ class CustomReceptionProvider extends EloquentUserProvider
             }
         }
 
+
         return $query->first();
     }
 }

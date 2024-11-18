@@ -115,9 +115,6 @@ class AppServiceProvider extends ServiceProvider
                 $composer->compose($view);
             }
         });
-
-      
-
      
 
         Schema::defaultStringLength(191);

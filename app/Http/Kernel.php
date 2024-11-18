@@ -57,6 +57,7 @@ class Kernel extends HttpKernel
         'login' => \App\Http\Middleware\LoginMiddleware::class,
         'admin' => \App\Http\Middleware\AuthenticateMiddleware::class,
         'reception' => \App\Http\Middleware\Reception::class,
+        'consultation' => \App\Http\Middleware\Consultation::class,
         'agency' => \App\Http\Middleware\Agency::class,
         'locale' => \App\Http\Middleware\SetLocale::class,
         'backend_default_locale' => \App\Http\Middleware\SetDefaultLocale::class,
