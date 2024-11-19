@@ -48,7 +48,7 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
             $query->join(...$join);
         }
         return $query->paginate($perPage)
-        ->withQueryString()->withPath(env('APP_URL').$extend['path']);
+        ->withQueryString()->withPath(env('APP_URL').'/'.$extend['path']);
     }
 
 }

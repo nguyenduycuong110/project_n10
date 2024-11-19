@@ -4,7 +4,7 @@
             <th>
                 <input type="checkbox" value="" id="checkAll" class="input-checkbox">
             </th>
-            <th>STT</th>
+            <th class="text-center">STT</th>
             <th>Thông tin bệnh nhân</th>
             <th>Giới tính</th>
             <th>Triệu chứng chính</th>
@@ -13,12 +13,12 @@
     </thead>
     <tbody class="patient-list">
         @if(isset($listPatient) && is_object($listPatient))
-            @foreach($listPatient as $patient)
+            @foreach($listPatient as $key => $patient)
                 <tr>
                     <td>
                         <input type="checkbox" value="{{ $patient->id }}" class="input-checkbox checkBoxItem">
                     </td>
-                    <td>
+                    <td class="text-center">
                         
                     </td>
                     <td>
@@ -40,3 +40,4 @@
         @endif
     </tbody>
 </table>
+{{  $listPatient->links('pagination::bootstrap-4') }}

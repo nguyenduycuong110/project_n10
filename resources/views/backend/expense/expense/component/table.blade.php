@@ -5,8 +5,8 @@
             <input type="checkbox" value="" id="checkAll" class="input-checkbox">
         </th>
         <th>Tên dịch vụ</th>
-        <th>Giá</th>
-        <th>Nhóm dịch vụ</th>
+        <th class="text-right">Giá(vnđ)</th>
+        <th class="text-center">Nhóm dịch vụ</th>
         <th>Mô tả</th>
         <th class="text-center">Tình Trạng</th>
         <th class="text-center">Thao tác</th>
@@ -22,10 +22,16 @@
                 <td>
                     {{ $expense->name }}
                 </td>
-                <th>
-                    <span class="int price">{{ convert_price($expense->price, true) }} đ</span>
+                <th style="width:200px;">
+                    <input type="text" 
+                        name="price" 
+                        value="{{ convert_price($expense->price, true)  }}" 
+                        class="form-control sort-price text-right int" 
+                        data-id="{{ $expense->id }}" 
+                        data-model="{{ $config['model'] }}"
+                    >
                 </th>
-                <td>
+                <td class="text-center">
                     @if(isset($expense->expense_catalogues))
                         {{ $expense->expense_catalogues->name }}
                     @endif

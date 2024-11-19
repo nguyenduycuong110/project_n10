@@ -51,7 +51,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         }
 
         return $query->paginate($perPage)
-                    ->withQueryString()->withPath(env('APP_URL').$extend['path']);
+            ->withQueryString()->withPath(env('APP_URL').'/'.$extend['path']);
     }
 
     public function getInfo($id = 0){

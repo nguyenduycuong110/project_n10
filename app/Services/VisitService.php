@@ -84,6 +84,22 @@ class VisitService extends BaseService implements VisitServiceInterface
         }
     }
 
+    public function paginatePatientOfClinic($request , $id = 0){
+        $condition = [
+            'keyword' => addslashes($request->input('keyword')),
+            'publish' => $request->integer('publish')
+        ];
+        $perPage = $request->integer('perpage');
+        $visits = $this->visitRepository->getPatientByClinic(
+            $id,
+            $condition, 
+            $perPage,
+            ['path' => 'consultation/index'], 
+        );
+        
+        return $visits;
+    }
+
    
     
     private function paginateSelect(){

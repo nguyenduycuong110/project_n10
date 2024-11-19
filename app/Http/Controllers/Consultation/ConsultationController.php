@@ -5,19 +5,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 use App\Repositories\Interfaces\VisitRepositoryInterface as VisitRepository;
+use App\Services\Interfaces\VisitServiceInterface as VisitService;
 
 class ConsultationController
 {
     
     protected $userRepository;
     protected $visitRepository;
+    protected $visitService;
     
     public function __construct(
         UserRepository $userRepository,
-        VisitRepository $visitRepository
+        VisitRepository $visitRepository,
+        VisitService $visitService
     ){
         $this->userRepository = $userRepository;
         $this->visitRepository = $visitRepository;
+        $this->visitService = $visitService;
     }
 
     public function index(Request $request){
@@ -26,7 +30,7 @@ class ConsultationController
 
         $infoClinic = $this->userRepository->getInfo($user->id);
 
-        $listPatient = $this->visitRepository->getPatientByClinic($infoClinic->clinic_id);
+        $listPatient = $this->visitService->paginatePatientOfClinic($request, $infoClinic->clinic_id);
 
         $config = $this->config();
 

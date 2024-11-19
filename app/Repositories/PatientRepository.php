@@ -50,7 +50,7 @@ class PatientRepository extends BaseRepository implements PatientRepositoryInter
         $query->orderBy($orderBy[0], $orderBy[1]);
 
         return $query->paginate($perPage)
-            ->withQueryString()->withPath(env('APP_URL').$extend['path']);
+            ->withQueryString()->withPath(env('APP_URL').'/'.$extend['path']);
     }
 
 
@@ -97,7 +97,7 @@ class PatientRepository extends BaseRepository implements PatientRepositoryInter
         $query->orderBy($orderBy[0], $orderBy[1]);
 
         return $query->paginate($perPage)
-            ->withQueryString()->withPath(env('APP_URL').$extend['path']);
+            ->withQueryString()->withPath(env('APP_URL').'/'.$extend['path']);
     }
 
     public function findNewPatient($time){

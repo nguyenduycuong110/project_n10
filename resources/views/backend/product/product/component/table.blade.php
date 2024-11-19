@@ -4,16 +4,17 @@
 @endphp
 <table class="table table-striped table-bordered">
     <thead>
-    <tr>
-        <th style="width:50px;">
-            <input type="checkbox" value="" id="checkAll" class="input-checkbox">
-        </th>
-        <th style="width:700px;">{{ __('messages.tableName') }}</th>
-        @include('backend.dashboard.component.languageTh')
-        <th style="width:80px;" class="text-center">{{ __('messages.tableOrder') }}</th>
-        <th class="text-center" style="width:100px;">{{ __('messages.tableStatus') }}</th>
-        <th class="text-center" style="width:100px;">{{ __('messages.tableAction') }}</th>
-    </tr>
+        <tr>
+            <th style="width:50px;">
+                <input type="checkbox" value="" id="checkAll" class="input-checkbox">
+            </th>
+            <th style="width:700px;">{{ __('messages.tableName') }}</th>
+            @include('backend.dashboard.component.languageTh')
+            <th class="text-right">Giá(vnđ)</th>
+            <th style="width:80px;" class="text-center">{{ __('messages.tableOrder') }}</th>
+            <th class="text-center" style="width:100px;">{{ __('messages.tableStatus') }}</th>
+            <th class="text-center" style="width:100px;">{{ __('messages.tableAction') }}</th>
+        </tr>
     </thead>
     <tbody>
         @if(isset($products) && is_object($products))
@@ -42,6 +43,9 @@
                     </div>
                 </td>
                 @include('backend.dashboard.component.languageTd', ['model' => $product, 'modeling' => 'Product'])
+                <td>
+                    <input type="text" name="price" value="{{ convert_price($product->price, true)  }}" class="form-control sort-price text-right int" data-id="{{ $product->id }}" data-model="{{ $config['model'] }}">
+                </td>
                 <td>
                     <input type="text" name="order" value="{{ $product->order }}" class="form-control sort-order text-right" data-id="{{ $product->id }}" data-model="{{ $config['model'] }}">
                 </td>

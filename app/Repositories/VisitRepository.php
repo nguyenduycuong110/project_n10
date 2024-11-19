@@ -44,7 +44,7 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
         }
 
         return $query->paginate($perPage)
-            ->withQueryString()->withPath(env('APP_URL').$extend['path']);
+            ->withQueryString()->withPath(env('APP_URL').'/'.$extend['path']);
     }
 
     public function getAll($id = 0){
@@ -71,8 +71,13 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
         ->get();
     }
 
-    public function getPatientByClinic($clinic_id = 0){
-        return $this->model->select([
+    public function getPatientByClinic(
+        int $clinic_id = 0,
+        array $condition = [], 
+        int $perPage = 1,
+        array $extend = []
+    ) {
+        $query = $this->model->select([
             'visits.symptoms',
             'visits.code',
             'tb2.name as patient_name',
@@ -83,9 +88,19 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
             'tb2.cid as patient_cide',
             'tb2.province_id'
         ])
-        ->join('patients as tb2','tb2.id','=','visits.patient_id')
-        ->where('visits.clinic_id', $clinic_id)
-        ->get();
+        ->join('patients as tb2', 'tb2.id', '=', 'visits.patient_id')
+        ->where('visits.clinic_id', $clinic_id);
+    
+        if (isset($condition['keyword']) && !empty($condition['keyword'])) {
+            $query->where('visits.code', 'LIKE', '%' . $condition['keyword'] . '%');
+        }
+        if (isset($condition['publish']) && $condition['publish'] != 0) {
+            $query->where('visits.publish', '=', $condition['publish']);
+        }
+    
+        return $query->paginate($perPage)
+            ->withQueryString()->withPath(env('APP_URL').'/'.$extend['path']);
     }
+    
 
 }
