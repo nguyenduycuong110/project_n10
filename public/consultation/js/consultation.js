@@ -37,8 +37,6 @@
 
 	}
 
-    
-
 
     HT.switchery = () => {
         $('.js-switch').each(function(){
@@ -237,22 +235,24 @@
             })
         }
     }
-
-    HT.pushPatient = () => {
+    
+    HT.updatePatientOfClinic = () => {
 
         $(document).ready(function(){
 
             let lastCheckTime = convertToDatabaseFormat(new Date().toISOString());
 
-            function fetchDataPatient() {
+            let clinic_id = $('input[name="clinic_id"]').val()
+
+            function updatePatient() {
 
                 $.ajax({
 
-                    url: '/ajax/reception/getPatient',
+                    url: '/ajax/consultation/getPatient',
 
                     method: 'GET',
 
-                    data: { last_check_time: lastCheckTime },
+                    data: { last_check_time: lastCheckTime , clinic_id : clinic_id },
 
                     success: function(res) {
 
@@ -260,7 +260,7 @@
 
                             lastCheckTime = convertToDatabaseFormat(new Date().toISOString());
 
-                            HT.updatePatients(res.patients);
+                            HT.appendPatients(res.patients)
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -268,53 +268,53 @@
                     },
                 });
             }
-            setInterval(fetchDataPatient, 10000);
+            setInterval(updatePatient, 10000);
         })
     }
 
-    
-    HT.updatePatients = (data) => {
+    HT.appendPatients = (data) => {
 
-        const $patientList = $('.patient-list'); 
+        const $patientList = $('.patient-clinic'); 
+
+        let currentStt = $patientList.find('tr').length;
         
         let newPatientsHtml = '';
 
         data.forEach(patient => {
 
-            const editUrl = `${window.location.origin}/reception/patient/${patient.id}/visit`;
+            currentStt += 1;
 
             newPatientsHtml += `
                 <tr>
                     <td>
-                        <input type="checkbox" value="${patient.id}" class="input-checkbox checkBoxItem">
+                        <input type="checkbox" value="" class="input-checkbox checkBoxItem">
+                    </td>
+                    <td class="text-center">
+                        ${currentStt}
                     </td>
                     <td>
-                        <p>${patient.name} - ${patient.birthday} tuổi</p>
-                        <p>Mã bệnh nhân : ${patient.code}</p>
+                        <p>${patient.patient_name} - ${patient.patient_birthday} tuổi</p>
+                        <p>Mã bệnh nhân : ${patient.patient_code}</p>
                         <p>SĐT bệnh nhân : ${patient.patient_phone}</p>
                     </td>
                     <td>
-                        ${patient.gender}
+                        ${patient.patient_gender}
                     </td>
-                    <td class="text-center dc">
-                        ${patient.cid}
+                    <td>
+                        ${patient.symptoms}
                     </td>
-                    <th>
-                        ${patient.province_name}
-                    </th>
                     <td class="text-center"> 
-                        <a href="${editUrl}" class="btn btn-success"><i class="fa fa-edit"></i></a>
+                        <a href="" class="btn btn-success" ><i class="fa fa-edit"></i></a>
                     </td>
                 </tr>
             `;
         });
 
-        $patientList.html(newPatientsHtml);
-
+        $patientList.append(newPatientsHtml);
     }
     
 	$(document).ready(function(){
-        HT.pushPatient()
+        HT.updatePatientOfClinic()
         HT.openNewWindow()
         HT.switchery()
         HT.select2()

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Clinic;
 use App\Repositories\Interfaces\ClinicRepositoryInterface;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ClinicService
@@ -46,6 +47,24 @@ class ClinicRepository extends BaseRepository implements ClinicRepositoryInterfa
 
         return $query->paginate($perPage)
             ->withQueryString()->withPath(env('APP_URL').$extend['path']);
+    }
+
+    public function getInfoClinic(int $department_id = 0){
+        return $this->model->select([
+            'clinics.id',
+            'clinics.user_id',
+            'clinics.code',
+            'clinics.name',
+            DB::raw('COUNT(tb2.id) as patient_count')
+        ])
+        ->leftJoin('visits as tb2', function($join){
+            $join->on('tb2.clinic_id', '=' , 'clinics.id')
+                ->where('tb2.status', config('apps.general.status_open'));
+        })
+        ->groupBy('clinics.id')
+        ->where('clinics.department_id', $department_id)
+        ->get();
+
     }
 
 

@@ -11,6 +11,7 @@ use App\Repositories\Interfaces\PatientRepositoryInterface as PatientRepository;
 use App\Repositories\Interfaces\ClinicRepositoryInterface as ClinicRepository;
 use App\Repositories\Interfaces\VisitRepositoryInterface as VisitRepository;
 
+
 class ReceptionController extends Controller
 {
     
@@ -69,10 +70,7 @@ class ReceptionController extends Controller
 
         $department_id = $request->input('department_id');
 
-        $clinics = $this->clinicRepository->findByCondition([
-           ['department_id', '=', $department_id]
-        ], true);
-
+        $clinics = $this->clinicRepository->getInfoClinic($department_id);
 
         if(is_null($clinics) || $clinics->isEmpty()) {
             return response()->json([

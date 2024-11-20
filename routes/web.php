@@ -65,14 +65,19 @@ use App\Http\Controllers\Frontend\ProductCatalogueController as FeProductCatalog
 use App\Http\Controllers\Backend\Crm\AgencyController;
 use App\Http\Controllers\Backend\Crm\ConstructionController;
 use App\Http\Controllers\Ajax\ConstructController as AjaxConstructController;
+
 use App\Http\Controllers\Ajax\CustomerController as AjaxCustomerController;
+
 use App\Http\Controllers\Ajax\ReceptionController as AjaxReceptionController;
+
+use App\Http\Controllers\Ajax\ConsultationController as AjaxConsultationController;
 
 use App\Http\Controllers\Reception\AuthController as ReAuthController;
 
 use App\Http\Controllers\Reception\ReceptionController as ReReceptionController;
 
 use App\Http\Controllers\Consultation\AuthController as CoAuthController;
+
 use App\Http\Controllers\Consultation\ConsultationController as CoConsultationController;
 
 
@@ -119,10 +124,10 @@ Route::group(['middleware' => ['consultation','set.guard.session:consultation']]
 
     Route::get('consultation/index', [CoConsultationController::class, 'index'])->name('consultation.index'); 
 
+    Route::get('ajax/consultation/getPatient', [AjaxConsultationController::class, 'getPatient'])->name('ajax.consultation.getPatient');
+
 });
  
-
-
 
 
 
@@ -163,6 +168,7 @@ Route::get('cart/{code}/success'.config('apps.general.suffix'), [CartController:
 
 
 Route::get('ajax/post/video', [AjaxPostController::class, 'video'])->name('post.video');
+
 Route::post('ajax/product/wishlist', [AjaxProductController::class, 'wishlist'])->name('product.wishlist');
 
 Route::get('ajax/distribution/getMap', [AjaxDistributionController::class, 'getMap'])->name('distribution.getMap');

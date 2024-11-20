@@ -21,5 +21,7 @@
         'doctor_id' => 5,
         'sys_admin' =>'SYS CMS',
         'sys_reception' => 'SYS RECEPTION',
-        'sys_consultation' => 'SYS CONSULTATION'
+        'sys_consultation' => 'SYS CONSULTATION',
+        'status_open' => 1,
+        'status_close' => 2,
 	];

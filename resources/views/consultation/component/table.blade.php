@@ -11,15 +11,15 @@
             <th class="text-center">Thao tác</th>
         </tr>
     </thead>
-    <tbody class="patient-list">
+    <tbody class="patient-clinic">
         @if(isset($listPatient) && is_object($listPatient))
             @foreach($listPatient as $key => $patient)
                 <tr>
                     <td>
-                        <input type="checkbox" value="{{ $patient->id }}" class="input-checkbox checkBoxItem">
+                        <input type="checkbox" value="" class="input-checkbox checkBoxItem">
                     </td>
-                    <td class="text-center">
-                        
+                    <td class="text-center stt">
+                        {{ $key + 1 }}
                     </td>
                     <td>
                         <p>{{ $patient->patient_name }} - {{ \Carbon\Carbon::parse($patient->patient_birthday)->age }} tuổi</p>

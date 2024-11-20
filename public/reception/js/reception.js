@@ -37,8 +37,6 @@
 
 	}
 
-    
-
 
     HT.switchery = () => {
         $('.js-switch').each(function(){
@@ -309,7 +307,7 @@
             `;
         });
 
-        $patientList.html(newPatientsHtml);
+        $patientList.prepend(newPatientsHtml);
 
     }
     
@@ -334,7 +332,7 @@
                     success: function(res) {
 
                         if(res.clinics.length > 0){
-                            
+
                             HT.appendListClinic(res.clinics)
 
                         }else{
@@ -371,7 +369,7 @@
                             <input type="hidden" name="user_id" value="${clinic.user_id}">
                             <input id="${clinic.id}" name="clinic_id" type="checkbox" value="${clinic.id}" >
                             <label data-id="${clinic.id}" for="${clinic.id}" class="txt">
-                                ${clinic.code} - ${clinic.name} 
+                                ${clinic.code} - <span class="text-danger">${clinic.name}</span> - Đang chờ : <span class="text-danger">${clinic.patient_count}</span>
                             </label>
                         </div>
                     </div>
@@ -727,7 +725,6 @@
         })
     }
     
-
    
 	$(document).ready(function(){
         HT.checkStatus()

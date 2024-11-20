@@ -39,5 +39,17 @@ class AuthController
 
     }
 
+    public function logout(Request $request){
+
+        Auth::guard('consultation')->logout();
+
+        $request->session()->forget('session_consultation');
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('consultation.auth.login');
+
+    }
+
     
 }

@@ -89,11 +89,14 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
             'tb2.province_id'
         ])
         ->join('patients as tb2', 'tb2.id', '=', 'visits.patient_id')
-        ->where('visits.clinic_id', $clinic_id);
+        ->where('visits.clinic_id', $clinic_id)
+        ->where('visits.status', config('apps.general.status_open'));
     
         if (isset($condition['keyword']) && !empty($condition['keyword'])) {
-            $query->where('visits.code', 'LIKE', '%' . $condition['keyword'] . '%');
+            $query->where('visits.code', 'LIKE', '%' . $condition['keyword'] . '%')
+            ->orWhere('tb2.name', 'LIKE', '%' . $condition['keyword'] . '%');
         }
+
         if (isset($condition['publish']) && $condition['publish'] != 0) {
             $query->where('visits.publish', '=', $condition['publish']);
         }
@@ -101,6 +104,20 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
         return $query->paginate($perPage)
             ->withQueryString()->withPath(env('APP_URL').'/'.$extend['path']);
     }
-    
+
+    public function findNewPatients($time , $clinic_id = 0){
+        return $this->model->select([
+            'visits.symptoms',
+            'tb2.name as patient_name',
+            'tb2.code as patient_code',
+            'tb2.patient_phone',
+            'tb2.gender as patient_gender',
+            'tb2.birthday as patient_birthday',
+        ])
+        ->join('patients as tb2','tb2.id', '=' , 'visits.patient_id')
+        ->where('visits.created_at', '>' , $time)
+        ->where('visits.clinic_id', $clinic_id)
+        ->get();
+    }
 
 }
