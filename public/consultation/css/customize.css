@@ -724,7 +724,6 @@ input[type=checkbox]{
 }
 .search-model-box{
     position: relative;
-    margin-top:40px;
 }
 .search-model-box .fa{
     position: absolute;
@@ -740,10 +739,15 @@ input[type=checkbox]{
     margin-right:10px;
 }
 .search-result-item .name{
-    color:blue;
+    color:0088FF;
 }
 .search-result-item .deleted{
     cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.search-result-item .deleted .price{
+    margin-right: 20px;
 }
 .search-result-item:not(:last-child){
     margin-bottom:10px;
@@ -764,7 +768,7 @@ input[type=checkbox]{
     width:100%;
     background: transparent;
     border:0;
-    padding:15px 10px;
+    padding:12px 10px;
 }
 .ajax-search-result button:hover{
     background:#eff9fd;
@@ -1324,4 +1328,12 @@ div.edit{
 
 .construction-product-box{
     margin-top:0 !important;
+}
+.ml10{
+    margin-left: 10px;
+}
+.btn-pr{
+    border: none;
+    background: #fff;
+    color: #0088FF;
 }

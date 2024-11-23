@@ -33,7 +33,7 @@
                         {{ $patient->symptoms }}
                     </td>
                     <td class="text-center"> 
-                        <a href="" class="btn btn-success" ><i class="fa fa-edit"></i></a>
+                        <a href="{{ route('consultation.patient.detail',['id' => $patient->id]) }}" class="btn btn-success" ><i class="fa fa-edit"></i></a>
                     </td>
                 </tr>
             @endforeach

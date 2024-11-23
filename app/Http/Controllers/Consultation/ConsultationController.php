@@ -5,22 +5,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 use App\Repositories\Interfaces\VisitRepositoryInterface as VisitRepository;
+use App\Repositories\Interfaces\PatientRepositoryInterface as PatientRepository;
 use App\Services\Interfaces\VisitServiceInterface as VisitService;
+use Carbon\Carbon;
 
 class ConsultationController
 {
-    
     protected $userRepository;
     protected $visitRepository;
+    protected $patientRepository;
     protected $visitService;
     
     public function __construct(
         UserRepository $userRepository,
         VisitRepository $visitRepository,
+        PatientRepository $patientRepository,
         VisitService $visitService
     ){
         $this->userRepository = $userRepository;
         $this->visitRepository = $visitRepository;
+        $this->patientRepository = $patientRepository;
         $this->visitService = $visitService;
     }
 
@@ -39,6 +43,27 @@ class ConsultationController
             'listPatient',
             'config'
         ));
+    }
+
+    public function detail($id){
+
+        $user = Auth::guard('consultation')->user();
+
+        $infoClinic = $this->userRepository->getInfo($user->id);
+
+        $infoVisit = $this->visitRepository->getInfo($infoClinic->clinic_id , $id);
+
+        $infoVisit['patient_birthday'] = Carbon::parse($infoVisit->patient_birthday)->age;
+
+        $infoVisit['patient_gender'] = __('messages.gender')[$infoVisit->patient_gender];
+
+        $config = $this->config();
+
+        return view('consultation.patient.detail', compact(
+            'config',
+            'infoVisit'
+        ));
+
     }
 
     private function config(){

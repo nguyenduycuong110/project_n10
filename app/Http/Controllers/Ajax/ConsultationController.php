@@ -7,18 +7,30 @@ use Illuminate\Http\Request;
 use App\Models\Language;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\Interfaces\VisitRepositoryInterface as VisitRepository;
-
+use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
+use App\Repositories\Interfaces\ExpenseRepositoryInterface as ExpenseRepository;
+use App\Repositories\Interfaces\PatientRepositoryInterface as PatientRepository;
 
 class ConsultationController extends Controller
 {
     
     protected $visitRepository;
+    protected $expenseRepository;
+    protected $userRepository;
+    protected $patientRepository;
 
     public function __construct(
-        VisitRepository $visitRepository
+        VisitRepository $visitRepository,
+        ExpenseRepository $expenseRepository,
+        UserRepository $userRepository,
+        PatientRepository $patientRepository
     ){
         $this->visitRepository = $visitRepository;
+        $this->expenseRepository = $expenseRepository;
+        $this->userRepository = $userRepository;
+        $this->patientRepository = $patientRepository;
     }
 
     public function getPatient(Request $request){
@@ -57,6 +69,42 @@ class ConsultationController extends Controller
         );
 
 
+    }
+
+    public function findExpense(Request $request){
+
+        $condition = [
+            'keyword' => $request->input('keyword')
+        ];
+
+        $object = $this->expenseRepository->searchExpense($condition);
+
+        return response()->json($object); 
+
+    }
+
+    public function createService(Request $request){
+
+        $patient_id = $request->input('patient_id');
+
+        $patient = $this->patientRepository->findById($patient_id);
+
+        $user = Auth::guard('consultation')->user();
+
+        $infoClinic = $this->userRepository->getInfo($user->id);
+
+        $payload = [
+            'patient_name' => $patient->name,
+            'patient_gender' => __('messages.gender')[$patient->gender],
+            'patient_birthday' => Carbon::parse($patient->birthday)->age,
+            'patient_address' => $patient->address,
+            'area' => $infoClinic->clinic_name . ' - Khoa ' . $infoClinic->department_name,
+            'expense_name' => $request->input('expense_name'),
+            'expense_price' => $request->input('expense_price')
+        ];
+
+        return response()->json($payload);
+        
     }
 
     

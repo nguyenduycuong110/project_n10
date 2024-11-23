@@ -51,4 +51,13 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
         ->withQueryString()->withPath(env('APP_URL').'/'.$extend['path']);
     }
 
+    public function searchExpense(array $condition = []){
+        $query = $this->model->select('*')->where(function($query) use ($condition){
+            if(isset($condition['keyword']) && !empty($condition['keyword'])){
+                $query->where('name', 'LIKE', '%'.$condition['keyword'].'%');
+            }
+        });
+        return $query->get();
+    }
+
 }

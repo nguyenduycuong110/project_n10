@@ -8717,3 +8717,19 @@ h1, h2 {
 .note  td{
     padding: 30px 8px;
 }
+.box.ibox{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+}
+.bl{
+    min-height: 500px;
+}
+.expense{
+    display: flex;
+}
+.wr{
+    display: flex;
+    align-items: center;
+}
+.wr .price{
+    margin-right: 20px;
+}

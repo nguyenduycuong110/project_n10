@@ -78,8 +78,10 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
         array $extend = []
     ) {
         $query = $this->model->select([
+            'visits.id',
             'visits.symptoms',
             'visits.code',
+            'tb2.id as patient_id',
             'tb2.name as patient_name',
             'tb2.code as patient_code',
             'tb2.birthday as patient_birthday',
@@ -118,6 +120,20 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
         ->where('visits.created_at', '>' , $time)
         ->where('visits.clinic_id', $clinic_id)
         ->get();
+    }
+
+    public function getInfo($clinic_id , $id){
+        return $this->model->select([
+            'visits.symptoms',
+            'tb2.id as patient_id',
+            'tb2.name as patient_name',
+            'tb2.birthday as patient_birthday',
+            'tb2.gender as patient_gender'
+        ])
+        ->join('patients as tb2', 'tb2.id', '=' , 'visits.patient_id')
+        ->where('visits.clinic_id', $clinic_id)
+        ->where('visits.id', $id)
+        ->first();
     }
 
 }
