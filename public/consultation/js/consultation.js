@@ -453,6 +453,142 @@
         })
     }
 
+    HT.searchProduct = () => {
+        $(document).on('keyup', '.search-product', function(e){
+            e.preventDefault()
+            let _this = $(this)
+            let keyword = _this.val()
+            let option = {
+                keyword : keyword
+            }
+            HT.sendProduct(option)
+        })
+    }
+ 
+    HT.sendProduct = (option) => {
+        clearTimeout(typingTimer);
+            typingTimer = setTimeout(function(){
+                $.ajax({
+                    url: 'ajax/consultation/findProduct', 
+                    type: 'GET', 
+                    data: option,
+                    dataType: 'json', 
+                    success: function(res) {
+                        if(res){
+                            let html = HT.renderSearchProduct(res)
+                            if(html.length){
+                                $('.ajax-search-product').html(html).show()
+                            }else{
+                                $('.ajax-search-product').html(html).hide()
+                            }
+                        }
+                    },
+                    beforeSend: function() {
+                        
+                    },
+                });
+               
+        }, doneTyingInterval)
+    }
+
+    HT.renderSearchProduct = (data) => {
+        let html = ''
+        if(data.length){
+            for(let i = 0; i < data.length; i++){
+
+                let flag = ($('#model-'+data[i].id).length) ? 1 : 0;
+
+                let setChecked = ($('#model-'+data[i].id).length) ? HT.setChecked() : '';
+
+                let price = HT.addCommas(data[i].price);
+
+
+                html += `<button 
+                            class="ajax-product" 
+                            data-flag="${flag}" 
+                            data-name="${data[i].name}" 
+                            data-id="${data[i].id}"
+                            data-price="${price}"
+                        >
+                <div class="uk-flex uk-flex-middle uk-flex-space-between">
+                    <div>${data[i].name}</div>
+                    <div class="wr">
+                        <div class="price"> ${price} đ</div>
+                        <div class="auto-icon">
+                            ${setChecked}
+                        </div>
+                    <div>
+                </div>
+            </button>`
+            }
+        }
+        return html
+    }
+
+    HT.addProduct = () => {
+        $(document).on('click', '.ajax-product' , function(e){
+            e.preventDefault()
+            let _this = $(this)
+            let data = _this.data()
+            let html = HT.modelTemplate(data)
+            let flag = _this.attr('data-flag')
+            if(flag == 0){
+                _this.find('.auto-icon').html(HT.setChecked())
+                _this.attr('data-flag', 1)
+                $('.search-model-product').append(HT.templateProduct(data))
+
+            }else{
+                $('#model-'+data.id).remove()
+                _this.find('.auto-icon').html('')
+                _this.attr('data-flag', 0)
+            }
+        })
+    }
+
+    HT.templateProduct = (data) => {
+        let price = HT.addCommas(data.price);
+        let html = `<div class="search-result-product" id="model-${data.id}" data-modelid="${data.id}" data-name="${data.name}" data-price="${price}">
+            <div class="uk-flex uk-flex-middle uk-flex-space-between">
+                <div class="uk-flex uk-flex-middle">
+                    <span class="name">${data.name}</span>
+                    <div class="hidden">
+                        <input type="text" name="expense_name" value="${data.name}">
+                        <input type="text" name="expense_price" value="${price}">
+                    </div>
+                </div>
+                <div class="deleted uk-flex">
+                    <div class="price"> ${price} đ</div>
+                    <svg class="svg-next-icon svg-next-icon-size-12" width="12" height="12">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                            <path d="M18.263 16l10.07-10.07c.625-.625.625-1.636 0-2.26s-1.638-.627-2.263 0L16 13.737 5.933 3.667c-.626-.624-1.637-.624-2.262 0s-.624 1.64 0 2.264L13.74 16 3.67 26.07c-.626.625-.626 1.636 0 2.26.312.313.722.47 1.13.47s.82-.157 1.132-.47l10.07-10.068 10.068 10.07c.312.31.722.468 1.13.468s.82-.157 1.132-.47c.626-.625.626-1.636 0-2.26L18.262 16z">
+                            </path>
+                        </svg>
+                    </svg>
+                </div>
+            </div>
+        </div>`
+        return html
+    }
+
+    HT.unfocusSearchProduct = () => {
+        $(document).on('click', 'html', function(e){
+            if(!$(e.target).hasClass('search-model-product') && !$(e.target).hasClass('search-product')){
+                $('.ajax-search-product').html('')
+            }
+        })
+
+        $(document).on('click', '.ajax-search-product', function(e){
+            e.stopPropagation();
+        })
+    }
+
+    HT.removeProduct = () => {
+        $(document).on('click', '.search-model-product .deleted', function(){
+            let _this = $(this)
+            _this.parents('.search-result-product').remove()
+        })
+    }
+
     HT.addCommas = (nStr) => { 
         nStr = String(nStr);
         nStr = nStr.replace(/\./gi, "");
@@ -466,7 +602,8 @@
     }
 
     HT.btnPre = () => {
-        $(document).on('click','.btn-pr', function(){
+        $(document).on('click','.btn-pr', function(e){
+            e.preventDefault()
             let _this = $(this)
             let expense_name  = _this.closest('.search-result-item').find('input[name="expense_name"]').val()
             let expense_price  = _this.closest('.search-result-item').find('input[name="expense_price"]').val()
@@ -480,7 +617,6 @@
                 dataType: 'json', 
                 success: function(res) {
                     if(res){
-                        console.log(res)
                         HT.printService(res);
                     }
                 },
@@ -689,14 +825,274 @@
         iframe.contentWindow.print();
         document.body.removeChild(iframe);
     }
+    
+    HT.btnPrintBill = () => {
+        $(document).on('click','.btn-print', function(e){
+
+            e.preventDefault()
+
+            let patient_id = $('input[name="patient_id"]').val() 
+
+            let user_id = $('input[name="user_id"]').val()
+
+            const productData = {};
+
+            let totalPrice = 0;
+
+            $('.search-result-product').each(function(index) {
+
+                const id = $(this).data('modelid');
+                
+                const name = $(this).data('name');
+
+                const priceText = $(this).data('price');
+
+                const price = parseFloat(priceText.replace(/\./g, ''));
+
+                productData[index] = { [`id`]: id,  [`name`]: name , [`price`]: priceText  }; 
+
+                totalPrice += price;
+                
+            });
+
+            $.ajax({
+                url: 'ajax/consultation/createBill', 
+                type: 'GET', 
+                data: {
+                    productData : productData , patient_id : patient_id , user_id : user_id , totalPrice : totalPrice
+                },
+                dataType: 'json', 
+                success: function(res) {
+                    if(res){
+                        HT.btnBill(res)
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching :', textStatus, errorThrown);
+                },
+            });
 
 
+        })
+    }
+
+    HT.btnBill = (data) => {
+        const total_price =  HT.addCommas(data.total_price)
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'absolute';
+        iframe.style.width = '0px';
+        iframe.style.height = '0px';
+        iframe.style.border = 'none';
+        document.body.appendChild(iframe);
+        const iframeDocument = iframe.contentWindow.document;
+        iframeDocument.open();
+        iframeDocument.write(`
+            <html>
+                <head>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            color: #333;
+                            padding: 20px;
+                        }
+
+                        h2, h3 {
+                            margin: 0;
+                            padding: 5px 0;
+                        }
+
+                        h2 {
+                            font-size: 24px;
+                            font-weight: bold;
+                            color: #444;
+                            margin-bottom: 20px;
+                            text-align: center;
+                        }
+
+                        h3 {
+                            text-align: left;
+                            font-size: 15px;
+                            color: #007BFF;
+                            font-weight: bold;
+                        }
+
+                        .info-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin: 10px 0;
+                        }
+
+                        .info-table th , .info-table td {
+                            text-align: left;
+                            padding: 8px;
+                            border-bottom: 1px solid #ddd;
+                        }
+
+                        .info-table th {
+                            width: 30%;
+                        }
+
+                        .info-table p span:not(:last-child){
+                            margin-bottom: 30px;
+                            display: block;
+                        }
+
+                        .info-table td {
+                            color: #333;
+                            line-height: 1.6;
+                        }
+
+                        .section {
+                            margin-bottom: 10px;
+                        }
+
+                        .note td {
+                            padding: 30px 8px;
+                        }
+
+                        .info-table p span:not(:last-child){
+                            margin-bottom: 30px;
+                            display: block;
+                        }
+
+                        .info-table tr:last-child td, .info-table tr:last-child th {
+                            border-bottom: 0;
+                        }
+
+                        .uk-flex{
+                            display: flex;
+                        }
+
+                        .table {
+                            width: 100%;
+                            max-width: 100%;
+                            margin-bottom: 20px;
+                            border-right: 1px solid #DDDDDD;
+                        }
 
 
+                        .table > thead > tr > th {
+                            border: 1px solid #DDDDDD;
+                            border-right:0;
+                            vertical-align: middle;
+                            padding: 8px;
+                        }
+                        .table > tbody > tr > td{
+                            border: 1px solid #DDDDDD;
+                            border-right:0;
+                            border-top:0;
+                            line-height: 1.42857;
+                            padding: 8px;
+                            vertical-align: middle;
+                            justify-content:center;
+                        }
+
+                        th {
+                            text-align: left;
+                        }
+                            
+                        .mb20{ 
+                            margin-bottom:20px;
+                        }
+
+                        p{
+                            margin-top:0;
+                            margin-bottom:0;
+                        }
+
+                        .pr20{
+                            padding-right:20px;
+                        }
+
+                        /* Hide print button when printing */
+                        @media print {
+                            .print-button {
+                                display: none;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h2>Đơn thuốc</h2>
+                    <div class="section">
+                        <table class="info-table">
+                            <tbody><tr>
+                                <th>Họ và tên</th>
+                                <td>${data.patient_name}</td>
+                            </tr>
+                            <tr>
+                                <th>Tuổi</th>
+                                <td>${data.patient_birthday}</td>
+                            </tr>
+                            <tr>
+                                <th>Giới tính</th>
+                                <td>${data.patient_gender}</td>
+                            </tr>
+                            <tr>
+                                <th>Địa chỉ</th>
+                                <td>${data.patient_address}</td>
+                            </tr>
+                            <tr>
+                                <th>Số điện thoại</th>
+                                <td>${data.patient_phone}</td>
+                            </tr>
+                            <tr>
+                                <th>Chẩn đoán</th>
+                                <td>...................................................................................................................</td>
+                            </tr>
+                        </tbody></table>
+                    </div>
+                    <div class="section">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên thuốc</th>
+                                    <th>Đơn giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.payload.map((product, index) => `
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td style="width:250px">${product.name}</td>
+                                        <td>${product.price}</td>
+                                        <td>1</td>
+                                        <td>${product.price}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        <h3 class="pr20" style="text-align: right;">Tổng tiền : ${total_price}đ</h3>
+                        <h3 class="pr20" style="text-align: left;">Lời dặn :</h3>
+                    </div>    
+                    <div class="section" style="text-align: right; margin-top: 30px;">
+                        <h3 class="" style="text-align: right;">${data.create}</h3>
+                        <h3 class="pr20" style="text-align: right;">Bác sĩ chỉ định</h3>
+                        <div style="width: 300px; margin-left: auto;">
+                            <p style="text-align: right;">(Ký và ghi rõ họ tên)</p>
+                        </div>
+                    </div>
+                </body>
+            </html>
+        `);
+        iframeDocument.close();
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+        document.body.removeChild(iframe);
+    }
+    
 
 
     
 	$(document).ready(function(){
+        HT.btnPrintBill()
+        HT.removeProduct()
+        HT.unfocusSearchProduct()
+        HT.addProduct()
+        HT.searchProduct()
         HT.btnPre()
         HT.removeModel()
         HT.unfocusSearchBox()

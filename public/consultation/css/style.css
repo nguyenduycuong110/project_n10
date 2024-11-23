@@ -8440,7 +8440,7 @@ body.md-skin {
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
-    min-height: 100vh;
+    min-height: 1000px !important;
   }
   .navbar-static-side {
     z-index: 2001;
@@ -8663,14 +8663,14 @@ h1, h2 {
     color: #007BFF;
     margin-top: 0;
 }
-.visit .info-table {
+.info-table {
     width: 100%;
     border-collapse: collapse;
 }
-.visit .info-table th, .info-table td {
+.info-table th, .info-table td {
     text-align: left;
     padding: 8px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd !important;
 }
 .visit .info-table th {
     color: #555;
@@ -8732,4 +8732,24 @@ h1, h2 {
 }
 .wr .price{
     margin-right: 20px;
+}
+.btn-print{
+    background: none;
+    border: none;
+    color: #0088FF;
+}
+.check{
+    display: flex;
+    min-height: auto !important;
+}
+.check label{
+    margin-bottom: 0;
+    display: block;
+    font-weight: 500 !important;
+    cursor: pointer;
+}
+.check input{
+    margin-right: 10px !important;
+    cursor: pointer;
+    width: 15px;
 }

@@ -126,12 +126,17 @@ Route::group(['middleware' => ['consultation','set.guard.session:consultation']]
 
     Route::get('consultation/patient/{id}/detail', [CoConsultationController::class, 'detail'])->where(['id' => '[0-9]+'])->name('consultation.patient.detail');
 
+    Route::post('consultation/patient/{id}/update', [CoConsultationController::class, 'update'])->where(['id' => '[0-9]+'])->name('consultation.patient.update');
+
     Route::get('ajax/consultation/getPatient', [AjaxConsultationController::class, 'getPatient'])->name('ajax.consultation.getPatient');
 
     Route::get('ajax/consultation/findExpense', [AjaxConsultationController::class, 'findExpense'])->name('ajax.consultation.findExpense');
 
-    
+    Route::get('ajax/consultation/findProduct', [AjaxConsultationController::class, 'findProduct'])->name('ajax.consultation.findProduct');
+
     Route::get('ajax/consultation/createService', [AjaxConsultationController::class, 'createService'])->name('ajax.consultation.createService');
+
+    Route::get('ajax/consultation/createBill', [AjaxConsultationController::class, 'createBill'])->name('ajax.consultation.createBill');
     
 
 });

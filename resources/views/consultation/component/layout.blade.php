@@ -10,6 +10,7 @@
                 @yield('content')
                 @include('consultation.component.footer')
             </div>
+            
         </div>
         @include('consultation.component.script')
     </body>

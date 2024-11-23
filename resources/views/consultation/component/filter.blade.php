@@ -1,4 +1,4 @@
-<form action="">
+<form action="{{ route('consultation.index') }}">
     <div class="filter-wrapper">
         <div class="uk-flex uk-flex-middle uk-flex-space-between">
             @include('consultation.component.perpage')

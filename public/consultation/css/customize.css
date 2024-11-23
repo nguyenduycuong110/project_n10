@@ -714,6 +714,7 @@ input[type=checkbox]{
 .model-item{
     margin-bottom:10px;
 }
+.search-product,
 .search-model{
     border-radius: 5px;
     height: 42px;
@@ -730,6 +731,7 @@ input[type=checkbox]{
     left:15px;
     top:15px;
 }
+.search-model-product,
 .search-model-result{
     margin-top:20px;
 }
@@ -741,11 +743,13 @@ input[type=checkbox]{
 .search-result-item .name{
     color:0088FF;
 }
+.search-result-product .deleted,
 .search-result-item .deleted{
     cursor: pointer;
     display: flex;
     align-items: center;
 }
+.search-result-product .deleted .price,
 .search-result-item .deleted .price{
     margin-right: 20px;
 }
@@ -754,6 +758,7 @@ input[type=checkbox]{
     padding-bottom:10px;
     border-bottom:1px solid #e3e9ed
 }
+.ajax-search-product,
 .ajax-search-result{
     position: absolute;
     top:100%;
@@ -764,12 +769,14 @@ input[type=checkbox]{
     width:100%;
 }
 
+.ajax-search-product button,
 .ajax-search-result button{
     width:100%;
     background: transparent;
     border:0;
     padding:12px 10px;
 }
+.ajax-product:hover,
 .ajax-search-result button:hover{
     background:#eff9fd;
 }
@@ -1336,4 +1343,7 @@ div.edit{
     border: none;
     background: #fff;
     color: #0088FF;
+}
+.search-result-product{
+    margin-top: 20px;
 }

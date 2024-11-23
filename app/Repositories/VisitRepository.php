@@ -90,9 +90,7 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
             'tb2.cid as patient_cide',
             'tb2.province_id'
         ])
-        ->join('patients as tb2', 'tb2.id', '=', 'visits.patient_id')
-        ->where('visits.clinic_id', $clinic_id)
-        ->where('visits.status', config('apps.general.status_open'));
+        ->join('patients as tb2', 'tb2.id', '=', 'visits.patient_id');
     
         if (isset($condition['keyword']) && !empty($condition['keyword'])) {
             $query->where('visits.code', 'LIKE', '%' . $condition['keyword'] . '%')
@@ -102,6 +100,8 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
         if (isset($condition['publish']) && $condition['publish'] != 0) {
             $query->where('visits.publish', '=', $condition['publish']);
         }
+
+        $query->where('visits.clinic_id', $clinic_id)->where('visits.status', config('apps.general.status_open'));
     
         return $query->paginate($perPage)
             ->withQueryString()->withPath(env('APP_URL').'/'.$extend['path']);
@@ -124,6 +124,7 @@ class VisitRepository extends BaseRepository implements VisitRepositoryInterface
 
     public function getInfo($clinic_id , $id){
         return $this->model->select([
+            'visits.id',
             'visits.symptoms',
             'tb2.id as patient_id',
             'tb2.name as patient_name',

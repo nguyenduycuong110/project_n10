@@ -24,4 +24,5 @@
         'sys_consultation' => 'SYS CONSULTATION',
         'status_open' => 1,
         'status_close' => 2,
+        'vn' => 1,
 	];

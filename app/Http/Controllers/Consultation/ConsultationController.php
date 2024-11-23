@@ -61,10 +61,19 @@ class ConsultationController
 
         return view('consultation.patient.detail', compact(
             'config',
+            'user',
             'infoVisit'
         ));
 
     }
+
+    public function update($id, Request $request){
+        if($this->visitService->update($id, $request)){
+            return redirect()->route('consultation.index')->with('success','Cập nhật bản ghi thành công');
+        }
+        return redirect()->route('consultation.index')->with('error','Cập nhật bản ghi không thành công. Hãy thử lại');
+    }
+
 
     private function config(){
         return [
@@ -77,6 +86,7 @@ class ConsultationController
                 'https://vphome24.com/backend/js/plugins/slimscroll/jquery.slimscroll.min.js',
                 'https://vphome24.com/backend/js/bootstrap.min.js',
                 'consultation/js/consultation.js',
+                'backend/js/inspinia.js'
             ]
         ];
     }
