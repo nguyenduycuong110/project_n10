@@ -130,9 +130,20 @@
         </div>
         <div class="row mb20">
             <div class="col-lg-6">
-                <div class="ibox-title check">
-                    <input name="status" id="{{ config('apps.general.status_close') }}" type="checkbox" value="{{ config('apps.general.status_close') }}">
-                    <label for="{{ config('apps.general.status_close') }}">Đã khám xong</label>
+                <div class="ibox-title">
+                    <div class="uk-flex uk-flex-middle uk-flex-space-between">
+                        <h5>Trạng thái phiếu khám</h5>
+                    </div>
+                </div>
+                <div class="ibox-content check">
+                    <div class="ip wizard-form-checkbox">
+                        <input name="status" id="{{ config('apps.general.status_open') }}" type="checkbox" value="{{ config('apps.general.status_open') }}" checked>
+                        <label for="{{ config('apps.general.status_open') }}" style="background: #f8ac59">Đang xử lý</label>
+                    </div>
+                    <div class="ip wizard-form-checkbox">
+                        <input name="status" id="{{ config('apps.general.status_close') }}" type="checkbox" value="{{ config('apps.general.status_close') }}">
+                        <label for="{{ config('apps.general.status_close') }}" style="background: #18a689;">Đã khám xong</label>
+                    </div>
                 </div>
             </div>
         </div>

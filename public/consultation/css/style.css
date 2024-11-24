@@ -8741,15 +8741,22 @@ h1, h2 {
 .check{
     display: flex;
     min-height: auto !important;
+    flex-direction: column;
 }
 .check label{
     margin-bottom: 0;
     display: block;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
     cursor: pointer;
+    color: #fff;
+    opacity: 0.9 !important;
 }
 .check input{
     margin-right: 10px !important;
     cursor: pointer;
     width: 15px;
+}
+.ip{
+    display: flex;
+    margin-bottom: 10px;
 }

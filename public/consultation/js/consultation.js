@@ -1084,10 +1084,39 @@
         document.body.removeChild(iframe);
     }
     
+    HT.checkBox = () => {
+        $(document).on('click', '.wizard-form-checkbox label', function() {
+
+            let _this = $(this);
+
+            let labelFor = _this.data('id');
+
+            let checkBox = $('input[name="status"][id="' + labelFor + '"]');
+            
+            if(_this.hasClass('active')){
+
+                checkBox.prop('checked', false);
+
+                _this.removeClass('active');
+
+            }else{
+
+                _this.addClass('active');
+
+                checkBox.prop('checked', true); 
+
+                $('input[name="status"]').prop('checked', false);
+
+                $('.wizard-form-checkbox label').removeClass('active');
+
+            }
+        });
+    };
 
 
     
 	$(document).ready(function(){
+        HT.checkBox()
         HT.btnPrintBill()
         HT.removeProduct()
         HT.unfocusSearchProduct()

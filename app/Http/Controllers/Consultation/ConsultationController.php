@@ -86,7 +86,6 @@ class ConsultationController
                 'https://vphome24.com/backend/js/plugins/slimscroll/jquery.slimscroll.min.js',
                 'https://vphome24.com/backend/js/bootstrap.min.js',
                 'consultation/js/consultation.js',
-                'backend/js/inspinia.js'
             ]
         ];
     }
